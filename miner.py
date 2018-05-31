@@ -82,7 +82,7 @@ def save_files(user_lst):
 	encoded = encode_tweets(tweet_lst, word_dict)
 	for i in range(len(encoded)):
 		np.save(user_lst[i] + "_tweets.npy", encoded[i])
-		print("Saved " + user_lst[i] +"'s tweets" as user_lst[i] + "_tweets.npy")
+		print("Saved " + user_lst[i] +"'s tweets as " + user_lst[i] + "_tweets.npy")
 
 
 
