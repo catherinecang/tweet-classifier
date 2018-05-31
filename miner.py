@@ -5,7 +5,7 @@ np.random.seed(1337)
 import tweepy
 from tweepy import OAuthHandler
  
-#input tweepy tokens
+#Twitter API credentials
 consumer_key = ''
 consumer_secret = ''
 access_token = ''
