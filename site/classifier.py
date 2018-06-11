@@ -55,7 +55,7 @@ def build_model(num_categories):
     model.add(Dense(256, activation='relu'))
     model.add(Dropout(0.5))
     model.add(Dense(num_categories))
-    model.add(Activation('sigmoid'))
+    model.add(Activation('softmax'))
     return model
 
 def word_dict(user1, user2, user3, user4):
@@ -84,6 +84,6 @@ def trained_model(user1, user2, user3=None, user4=None):
 
     model.compile(loss='categorical_crossentropy', optimizer='sgd', metrics=['accuracy'])
     model.fit(X_train, Y_train,
-                    epochs=20, batch_size=32,
+                    epochs=32, batch_size=32,
                     verbose=1, validation_split=0.1)
     return model

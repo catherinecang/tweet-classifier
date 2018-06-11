@@ -7,13 +7,13 @@ from classifier import trained_model, word_dict, build_model
 
 from keras.models import model_from_json
 from keras.preprocessing.text import Tokenizer
-from keras import backend as K 
+from keras import backend as K
 
 app = Flask(__name__)
 app.config.from_object(__name__)
 cache = Cache(app,config={'CACHE_TYPE': 'simple'})
 
- 
+
 @app.route('/', methods=('GET', 'POST'))
 def index():
 	if request.method == 'POST':
@@ -21,7 +21,7 @@ def index():
 		two = request.form['second']
 		return redirect(url_for("get_result", user1=one, user2=two))
 	return render_template('classify/index.html')
- 
+
 def process_text(model, text, dictionary):
 	K.clear_session()
 	tokenizer = Tokenizer(num_words=5000)
@@ -35,6 +35,7 @@ def process_text(model, text, dictionary):
 def get_result(user1, user2, user3=None, user4=None):
 	if request.method == 'POST':
 		K.clear_session()
+		users = [user1, user2, user3, user4]
 		text = request.form['text']
 		model_weights = get_model_weights(user1, user2, user3, user4)
 		model = model_from_json(model_layers(user1, user2, user3, user4))
@@ -42,9 +43,11 @@ def get_result(user1, user2, user3=None, user4=None):
 		tokenizer = Tokenizer(num_words=5000)
 		text = encode_tweets([[text]], get_dictionary(user1, user2, user3, user4))
 		text = tokenizer.sequences_to_matrix(text[0], mode='binary')
-		result = str(model.predict(text))
-		return render_template('classify/result.html', res=result)
-	return render_template('classify/result.html', res="This may take some time, sorry!")
+		result = model.predict(text)[0]
+		p_res = users[np.argmax(result)]
+		confidence = max(result)
+		return render_template('classify/result.html', res=p_res, conf=confidence)
+	return render_template('classify/inputresult.html')
 
 @cache.memoize(timeout=86400)
 def big_test():
