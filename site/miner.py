@@ -6,10 +6,10 @@ import tweepy
 from tweepy import OAuthHandler
  
 #Twitter API credentials
-consumer_key = 'uKoRdyUg85BAqE4zxwtz8oPZA'
-consumer_secret = '2yXo40xdMtKgqf3Oi46vrzUtEDE3KYeuy1NZeYSHPSGZDcG19y'
-access_token = '1001934197945085953-mSGDYIkACOERBxGYe80St9cXivF831'
-access_secret = 'sGGaXVFOWQqNrSLDUqgrogkkxreCsXDPFOMOwy52FT11H'
+consumer_key = ''
+consumer_secret = ''
+access_token = ''
+access_secret = ''
 
 auth = OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_secret)
@@ -31,6 +31,7 @@ def read_tweets(user):
 #removes "RT", mentions, and twitter links 
 def clean_tweets(tweet_list):
     new_lst = []
+    i = 1
     for t in tweet_list:
         new_tweet = ""
         for word in t.split():
@@ -38,6 +39,7 @@ def clean_tweets(tweet_list):
                 new_tweet += word + " "
         if new_tweet:
             new_lst.append(new_tweet)
+        i += 1
     return new_lst
 
 #creates a dictionary of words to unique integers starting at 3, where a lower number indicates a more frequent word
@@ -76,7 +78,6 @@ def encode_tweets(tweet_lst, word_dict):
 def save_files(user_lst):
 	tweet_lst = []
 	for user in user_lst:
-		print("Now reading: " + user + "'s tweets")
 		tweet_lst.append(clean_tweets(read_tweets(user)))
 	word_dict = get_word_dictionary(tweet_lst)
 	encoded = encode_tweets(tweet_lst, word_dict)

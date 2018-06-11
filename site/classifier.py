@@ -6,18 +6,23 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation
 from keras.utils import np_utils
 from keras.preprocessing.text import Tokenizer
+from keras.models import model_from_json
 
+from miner import read_tweets, clean_tweets, get_word_dictionary, encode_tweets
+
+import os
 import sys
 
-#takes in a list of file addresses e.g. ["BarackObama_tweets.npy", "officialjaden_tweets.npy"]
+#takes in a dictionary of names to encoded tweets
 #split indicates the train/test data split
 #returns data split into X, y train/test values
-def get_inputs(file_lst, split = 0.2):
+def get_inputs(tweet_dict, split = 0.2):
     all_tweets = []
+    tweet_lst = list(tweet_dict.values())
+    num_categories = len(tweet_dict)
     i = 0
-    for file in file_lst:
-        f = np.load(file)
-        for t in f:
+    for tweet in tweet_lst:
+        for t in tweet:
             all_tweets.append((t, i))
         i += 1
     shuffle(all_tweets)
@@ -39,7 +44,7 @@ def get_inputs(file_lst, split = 0.2):
     return (X_train, Y_train), (X_test, Y_test)
 
 
-def build_model(X_train, Y_train, X_test, Y_test, num_categories):
+def build_model(num_categories):
     #build model
     model = Sequential()
     model.add(Dense(512, input_shape=(5000,)))
@@ -53,24 +58,32 @@ def build_model(X_train, Y_train, X_test, Y_test, num_categories):
     model.add(Activation('sigmoid'))
     return model
 
-#uses command line inputs. first input is the number of users as categories. the rest are each user file
-#example CLI: python3 classifier.py 2 officialjaden.npy BarackObama.npy
-if __name__ == '__main__':
-    num_categories = int(sys.argv[1])
-    file_lst = []
-    for i in range(2, 2 + num_categories):
-        file_lst.append(sys.argv[i])
-    (X_train, Y_train), (X_test, Y_test) = get_inputs(file_lst)
-    model = build_model(X_train, Y_train, X_test, Y_test, num_categories)
+def word_dict(user1, user2, user3, user4):
+    user_lst = [user1, user2, user3, user4]
+    user_lst = [user for user in user_lst if user is not None]
+    tweet_lst = []
+    for user in user_lst:
+        tweet_lst.append(clean_tweets(read_tweets(user)))
+    return get_word_dictionary(tweet_lst)
+    
+def trained_model(user1, user2, user3=None, user4=None):
+    user_lst = [user1, user2, user3, user4]
+    user_lst = [user for user in user_lst if user is not None]
+    num_categories = len(user_lst)
+    tweet_lst = []
+    for user in user_lst:
+        print("currently working on: " + user)
+        tweet_lst.append(clean_tweets(read_tweets(user)))
+    word_dict = get_word_dictionary(tweet_lst)
+    encoded = encode_tweets(tweet_lst, word_dict)
+    user_dict = {} 
+    for i in range(len(encoded)):
+        user_dict[user_lst[i]] = encoded[i]
+    (X_train, Y_train), (X_test, Y_test) = get_inputs(user_dict)
+    model = build_model(num_categories)
 
     model.compile(loss='categorical_crossentropy', optimizer='sgd', metrics=['accuracy'])
     model.fit(X_train, Y_train,
-                    epochs=32, batch_size=32,
+                    epochs=20, batch_size=32,
                     verbose=1, validation_split=0.1)
-    score = model.evaluate(X_test, Y_test,
-                       batch_size=32, verbose=1)
-    print('Test score:', score[0])
-    print('Test accuracy:', score[1])
-
-#Test score: 0.504342502988
-#Test accuracy: 0.812527765411
+    return model

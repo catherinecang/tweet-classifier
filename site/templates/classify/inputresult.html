@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block header %}
+  <h1>{% block title %}Input text to analyze{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="text">Text</label>
+    <textarea name="text" id="text">{{ request.form['text'] }}</textarea>
+    <input type="submit" value="Submit">
+  </form>
+{% endblock %}
