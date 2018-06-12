@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block header %}
+  <h3>{% block title %}Analyze{% endblock %}</h3>
+{% endblock %}
+{% block content %}
+<div class="container-fluid">
+<div class="row">
+	<div class="col-7">
+		<p> Input a twitter username below and what you want to analyze.</p>
+
+	  <form method="POST">
+	  	<label for="user">Username</label>
+	    <input name="user" id="user" value={{ user }} required>
+
+	    <select name="options" method="GET" action="/">
+		    {% for option in options %}
+		    <option value= "{{ option }}" SELECTED>{{option}}</option>"
+		    {% endfor %}
+		</select>
+		</br> </br>
+	    <div class="form-group row">
+	      <div class="col-xs-1" style="width: 90px; margin-left:15px;">
+	      	<input name="start" class="form-control" id="start" placeholder="Start" value="{{request.form['start']}}">
+	      </div>
+	      <div class="col-xs-1" style="width: 90px; margin-left:15px;">
+	        <input name="end" class="form-control" id="end" placeholder="End" value="{{request.form['end']}}">
+	      </div>
+	  </br> </br>
+	    </div>
+		<ol class="list-group" style="max-height: 300px; overflow-y:scroll;">
+			{% for item in lst %}
+			<li class="list-group-item" value="{{ item }}">{{ item }}</li>
+			{% endfor %}
+		</ol>
+	    </br>
+	    <input class="btn btn-dark" type="submit" value="Submit">
+
+	</div>
+	<div class="col-5">
+		<div class="card bg-info mb-3 text-white">
+			<h4 class="card-header">Information</h4>
+			<div class="card-body">
+				<h5 class="card-title">Word analysis</h4>
+				<p class="card-text"> This will show the most commonly used words of any given user. To keep it concise, enter a range in Start and End and we will display the most common words tweeted within that range. </p>
+				<p class="card-text"> Some potentially helpful information:</p>
+				<ul class="card-text">
+					<li> Words are considered separate from their hashtag counterparts: e.g. blessed and #blessed are different</li>
+					<li> Punctuation is not considered part of the word </li>
+					<li> Retweets aren't counted </li>
+					<li> Mentions aren't counted (but you can see the most common mentions on a different page)</li>
+					<li> Emojis or anything that isn't punctuation is added </li>
+					<li> A word is considered any string with no space separating it (so there may be typos) </li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+  </form>
+{% endblock %}

@@ -1,0 +1,30 @@
+<!doctype html>
+<title>{% block title %}{% endblock %} - Tweet Classifier</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+<!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
+
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark" style="height:65px;">
+    <span class="navbar-brand">Tweet Analysis</span>
+  <ul class="navbar-nav mr-auto">
+  	<li><a class="nav-link" href="{{ url_for('classify.index') }}">Classify</a> </li>
+    <li><a class="nav-link" href="{{ url_for('analyze.index') }}">Analyze</a> </li>
+  </ul>
+  <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+    <a class="nav-link p-2" href="https://github.com/catherinecang/tweet-classifier">
+      <img src="/static/inverticat.png" style="height:35px; width:35px">
+    </a>
+  </ul>
+</nav>
+
+<section class="content" style="margin-left:25px; margin-top: 10px;">
+  <header>
+    {% block header %}{% endblock %}
+  </header>
+  {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  {% block content %}{% endblock %}
+</section>
