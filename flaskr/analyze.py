@@ -13,8 +13,9 @@ options = ['Word Frequency', 'Mention Frequency', 'Hashtag Frequency', 'Emoji Fr
 def index():
 	if request.method == 'POST':
 		user = request.form['user']
-		return redirect_analyze(user, request.form.get('options'))
-	return render_template('analyze/index.html', options=options)
+		return render_template('analyze/index.html', usr=user)
+		#return redirect_analyze(user, request.form.get('options'))
+	return render_template('analyze/index.html', options=options, usr=None)
 
 @bp.route('/words/<user>', methods=['GET', 'POST'])
 def freq(user):

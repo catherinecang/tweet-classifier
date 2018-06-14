@@ -31,9 +31,13 @@
 	      </div>
           
           <div class="col-md-4">
-            <h2>Soon TM</h2>
-            <p>aaaaa</p>
-            <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+            <div class="card bg-light">
+            <h2 class="card-header">Graphs</h2>
+            <div class= "card-body">
+                <p> Generate graphs about a user's twitter activity </p>
+                <p><a class="btn btn-secondary" href="{{ url_for('graphs.index') }}" role="button">Go there &raquo;</a></p>
+            </div>
+          </div>
           </div>
         </div>
         <hr>
