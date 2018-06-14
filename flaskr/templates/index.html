@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block ncontent %}
+<div class="jumbotron">
+        <div class="container">
+          <h1 class="display-3">Tweet Analyzer</h1>
+          <p>This is a small webapp that can analyze information given a twitter username!</p>
+          <p><a class="btn btn-primary btn-large" href="#" role="button">Learn more &raquo;</a></p>
+        </div>
+</div>
+<div class="container">
+        <!-- Example row of columns -->
+        <div class="row">
+          <div class="col-md-4">
+          	<div class="card bg-light">
+	            <h2 class="card-header">Classify</h2>
+	            <div class= "card-body">
+		            <p> Create a custom classifier that differentiates between the text of different accounts' tweets.  </p>
+		            <p><a class="btn btn-secondary" href="{{ url_for('classify.index') }}" role="button">Go there &raquo;</a></p> 
+	        	</div>
+	          </div>
+	      </div>
+          <div class="col-md-4">
+          	<div class="card bg-light">
+	            <h2 class="card-header">Analyze</h2>
+	            <div class= "card-body">
+		            <p> Find details of a user's tweets, including frequencies of different types of text. </p>
+		            <p><a class="btn btn-secondary" href="{{ url_for('analyze.index') }}" role="button">Go there &raquo;</a></p>
+		        </div>
+	          </div>
+	      </div>
+          
+          <div class="col-md-4">
+            <h2>Soon TM</h2>
+            <p>aaaaa</p>
+            <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+          </div>
+        </div>
+        <hr>
+
+      </div> <!-- /container -->
+{% endblock %}

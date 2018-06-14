@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block ncontent %}
+<div class="jumbotron jumbotron-fluid" style="background: #b2c9f4;">
+  <div class="container">
+    <h1 class="display-3"> Twitter graphs </h1>
+    <p class="lead">Input a username below and generate graphs for tweet times, tweet length, ...</p>
+    <form method="POST" action="#times">
+	    <div class="input-group">
+		  <span class="input-group-addon" id="basic-addon1">@</span>
+		  <input class="form-control" placeholder="Username" name="user" id="user" value= "{{ user }}" required>
+	  </div> 
+	</br>
+		<p><input class="btn btn-primary btn-lg" type="submit" value="Get Started" name="action">
+		</p>
+	</form>
+  </div>
+</div>
+<!-- Time graph here -->
+<div class="jumbotron jumbotron-fluid bg-light" id="times">
+	<div class="container">
+		<h3 class="display-3"> Tweet Times</h3>
+		<div class="container-fluid">
+	<div class="row">
+		<div class="col-7">
+			{% for elem in time_graph %}
+			   {{elem|safe}}
+			{% endfor %}
+		</div>
+		<div class="col-5">
+			<form method="POST">
+				<select name="zones" method="GET" action="/">
+				{% for minus in range(1,13)[::-1] %}
+					{% if s == minus and sign == '-' %}
+						<option value="-{{minus}}" SELECTED="selected">UTC–{{minus}}:00 </option>
+					{% else %}
+						<option value="-{{minus}}">UTC–{{minus}}:00 </option>
+					{% endif %}
+				{% endfor %}
+					{% if s == 0 %}
+						<option value="+0" SELECTED="selected" >UTC+00:00 </option>
+					{% else %}
+						<option value="+0">UTC+00:00 </option>
+					{% endif %}
+				{% for plus in range(1,13) %}
+					{% if s == plus and sign == '+' %}
+						<option value="-{{plus}}" SELECTED="selected">UTC–{{plus}}:00 </option>
+					{% else %}
+						<option value="-{{plus}}">UTC–{{plus}}:00 </option>
+					{% endif %}
+				{% endfor %}
+				</select>
+
+				<input class="btn btn-dark" type="submit" value="Update Time Zone" name="action">
+				</br> </br>
+				<div class="card border-info">
+					<h4 class="card-header"> Common Time Zones </h4>
+					<div class="card-body">
+						<ul class="card-text">
+							<li> EST: UTC–5:00 </li>
+							<li> CST: UTC–6:00 </li>
+							<li> MST: UTC–7:00 </li>
+							<li> PST: UTC–8:00 </li>
+						</ul>
+					</div>
+				</div>
+		</div>
+	</div>
+	</div>
+	</div>
+</div> 
+<!-- End Tweet Times -->
+<!-- Start Tweet Lengths-->
+<div class="jumbotron jumbotron-fluid bg-light" id="times">
+	<div class="container">
+		<h3 class="display-3"> Tweet Lengths</h3>
+		<div class="container-fluid">
+			{% for elem in len_graph %}
+			   {{elem|safe}}
+			{% endfor %}
+		</div>
+
+	</div>
+</div>
+<!-- End Tweet Lengths -->
+<!-- Start Tweet Years-->
+<div class="jumbotron jumbotron-fluid bg-light" id="times">
+	<div class="container">
+		<h3 class="display-3"> Tweet Years</h3>
+		<div class="container-fluid">
+			{% for elem in year_graph %}
+			   {{elem|safe}}
+			{% endfor %}
+		</div>
+
+	</div>
+</div>
+{% endblock %}
+{% block content %}
+	
+
+{% endblock %}

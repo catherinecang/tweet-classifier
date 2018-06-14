@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block header %}
+  <h2>{% block title %}Graphs{% endblock %}
+  	<small class="text-muted">Time Graph</small>
+  </h2>
+{% endblock %}
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-7">
+			{% for elem in graph %}
+			   {{elem|safe}}
+			{% endfor %}
+		</div>
+		<div class="col-5">
+			<form method="POST">
+				<select name="zones" method="GET" action="/">
+				{% for minus in range(1,13)[::-1] %}
+					{% if s == minus and sign == '-' %}
+						<option value="-{{minus}}" SELECTED="selected">UTC–{{minus}}:00 </option>
+					{% else %}
+						<option value="-{{minus}}">UTC–{{minus}}:00 </option>
+					{% endif %}
+				{% endfor %}
+					{% if s == 0 %}
+						<option value="+0" SELECTED="selected" >UTC+00:00 </option>
+					{% else %}
+						<option value="+0">UTC+00:00 </option>
+					{% endif %}
+				{% for plus in range(1,13) %}
+					{% if s == plus and sign == '+' %}
+						<option value="-{{plus}}" SELECTED="selected">UTC–{{plus}}:00 </option>
+					{% else %}
+						<option value="-{{plus}}">UTC–{{plus}}:00 </option>
+					{% endif %}
+				{% endfor %}
+				</select>
+
+				<input class="btn btn-dark" type="submit" value="Update Time Zone">
+				</br> </br>
+				<div class="card border-info">
+					<h4 class="card-header"> Common Time Zones </h4>
+					<div class="card-body">
+						<ul class="card-text">
+							<li> EST: UTC–5:00 </li>
+							<li> CST: UTC–6:00 </li>
+							<li> MST: UTC–7:00 </li>
+							<li> PST: UTC–8:00 </li>
+						</ul>
+					</div>
+
+				</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

@@ -27,12 +27,14 @@ def create_app(test_config=None):
 
     
     cache.init_app(app)
-    from flaskr import classify, analyze
+    from flaskr import classify, analyze, graphs
     app.register_blueprint(classify.bp)
 
     app.register_blueprint(analyze.bp)
 
+    app.register_blueprint(graphs.bp)
+    
     @app.route('/')
     def index():
-        return render_template('base.html')
+        return render_template('index.html')
     return app

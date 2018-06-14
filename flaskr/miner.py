@@ -31,6 +31,18 @@ def read_tweets(user):
         oldest = tweets[-1].id - 1
     return [t.full_text for t in tweets]
 
+@cache.memoize(timeout=86400)
+def tweet_times(user):
+    times = []
+    new_tweets = api.user_timeline(screen_name = user, count=199)
+    times.extend(new_tweets)
+    oldest = times[-1].id - 1
+    while len(new_tweets) > 0:
+        new_tweets = api.user_timeline(screen_name = user,count=199,max_id=oldest)
+        times.extend(new_tweets)
+        oldest = times[-1].id - 1
+    return [t.created_at for t in times]
+
 #removes "RT", mentions, and twitter links
 @cache.memoize(timeout=0)
 def clean_tweets(tweet_list):
@@ -48,6 +60,21 @@ def clean_tweets(tweet_list):
         i += 1
     return new_lst
 
+@cache.memoize(timeout=0)
+def clean_with_mentions(tweet_list):
+    new_lst = []
+    i = 1
+    for t in tweet_list:
+        new_tweet = ""
+        for word in t.split():
+            if word != "RT" and "https://t.co/" not in word and "http://t.co/" not in word:
+                exclude = set(string.punctuation + '–' + '—')
+                word = ''.join(ch for ch in word if ch not in exclude)
+                new_tweet += word + " "
+        if new_tweet:
+            new_lst.append(new_tweet)
+        i += 1
+    return new_lst
 #creates a dictionary of words to unique integers starting at 3, where a lower number indicates a more frequent word
 def get_word_dictionary(tweet_lst):
     all_words = []
