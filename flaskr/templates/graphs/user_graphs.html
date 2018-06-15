@@ -3,7 +3,7 @@
 {% block ncontent %}
 <div class="jumbotron jumbotron-fluid" style="background: #b2c9f4;">
   <div class="container">
-    <h1 class="display-3"> Twitter graphs </h1>
+    <h1 class="display-3" style="color: #042e7a"> Twitter graphs </h1>
     <p class="lead">Input a username below and generate graphs for tweet times, tweet length, ...</p>
     <form method="POST" action="#times">
 	    <div class="input-group">
@@ -32,9 +32,9 @@
 				<select name="zones" method="GET" action="/">
 				{% for minus in range(1,13)[::-1] %}
 					{% if s == minus and sign == '-' %}
-						<option value="-{{minus}}" SELECTED="selected">UTC–{{minus}}:00 </option>
+						<option value="-{{minus}}" SELECTED="selected">UTC-{{minus}}:00 </option>
 					{% else %}
-						<option value="-{{minus}}">UTC–{{minus}}:00 </option>
+						<option value="-{{minus}}">UTC-{{minus}}:00 </option>
 					{% endif %}
 				{% endfor %}
 					{% if s == 0 %}
@@ -44,9 +44,9 @@
 					{% endif %}
 				{% for plus in range(1,13) %}
 					{% if s == plus and sign == '+' %}
-						<option value="-{{plus}}" SELECTED="selected">UTC–{{plus}}:00 </option>
+						<option value="-{{plus}}" SELECTED="selected">UTC+{{plus}}:00 </option>
 					{% else %}
-						<option value="-{{plus}}">UTC–{{plus}}:00 </option>
+						<option value="-{{plus}}">UTC+{{plus}}:00 </option>
 					{% endif %}
 				{% endfor %}
 				</select>

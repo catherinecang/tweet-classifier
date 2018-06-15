@@ -1,16 +1,27 @@
 {% extends 'base.html' %}
 
-{% block header %}
-  <h3>{% block title %}Select Users{% endblock %}</h3>
-{% endblock %}
+  {% block title %}Classify{% endblock %}
 
-{% block content %}
-<p> Input twitter usernames below and a tweet classifier will be generated. It might take some time, so please be patient! </p>
-  <form method="post">
-    <label for="first">First</label>
-    <input name="first" id="first" value="{{ request.form['first'] }}" required>
-    <label for="second">Second</label>
-    <input name="second" id="second" value="{{ request.form['second'] }}" required>
-    <input type="submit" value="Submit">
-  </form>
+
+{% block ncontent %}
+<div class="jumbotron jumbotron-fluid" style="background: #cee8ce;">
+  <div class="container">
+    <h1 class="display-3" style="color: #054205"> Classify Users </h1>
+    <p class="lead">Input two usernames below and generate a text-based classifier for who tweeted what.</p>
+    <form method="POST" action="#next">
+	    <div class="input-group">
+		  <span class="input-group-addon" id="basic-addon1">@</span>
+		  <input class="form-control" placeholder="User 1" name="first" id="second" required>
+		</div> </br>
+		<div class="input-group">
+		  <span class="input-group-addon" id="basic-addon1">@</span> 
+		  <input class="form-control" placeholder="User 2" name="second" id="second" required>
+	  </div> 
+	</br>
+		<p><input class="btn btn-dark btn-lg" type="submit" value="Submit" name="action">
+		</p>
+	</form>
+  </div>
+</div>
+
 {% endblock %}

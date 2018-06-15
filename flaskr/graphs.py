@@ -28,13 +28,15 @@ def user_graphs(user):
 	if request.method == 'POST':
 		print("Here's the form: " + str(request.form))
 		if request.form['action'] == "Get Started":
+			print('ya yeet')
 			user = request.form['user']
-			return redirect("/graphs/"+user+"#times")
+			print(user)
+			return redirect("/graphs/"+user)
 		elif request.form['action'] == "Update Time Zone":
 			offset = request.form.get("zones")
 			hours = update_time_zone(offset, og_hours)
 			hour_dict = {i:hours.count(i) for i in range(24)}
-			html_graph = draw_graph(hour_dict, "Hours")
+			time_html_graph = draw_graph(hour_dict, "Hours")
 			return render_template("graphs/user_graphs.html",time_graph=[time_html_graph], sign = offset[0], s=int(offset[1:]), len_graph=[len_html_graph], year_graph=[year_html_graph])
 	return render_template("graphs/user_graphs.html",time_graph=[time_html_graph], s = 0, sign='+', len_graph=[len_html_graph], year_graph=[year_html_graph])
 
